@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from authentication.models import User
 from authentication.serializers import UserSerializer
+from django.contrib.auth import authenticate
 
 
 @api_view(['POST'])
