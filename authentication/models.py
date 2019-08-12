@@ -10,5 +10,4 @@ class User(AbstractUser):
     phone_number = models.CharField(unique=True, max_length=12)
 
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = [
-        'first_name', 'last_name', 'username', 'password']
+    REQUIRED_FIELDS = ['username', 'password']
