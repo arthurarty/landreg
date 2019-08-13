@@ -11,8 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
 from datetime import timedelta
+
+from dotenv import load_dotenv
+
+import django_heroku
+
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -167,3 +171,5 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     FRONTEND_URL,
 )
+
+django_heroku.settings(locals())
