@@ -7,4 +7,12 @@ class BaseTestCase(APITestCase):
     """
     All helper methods
     """
-    pass
+
+    def signup_user(self, user):
+        """
+        Method signups user it is given
+        by sending post request to signup
+        endpoint
+        """
+        url = reverse('signup')
+        return self.client.post(url, user, format='json')

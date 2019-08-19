@@ -9,26 +9,24 @@ class AuthTests(BaseTestCase):
         """
         Ensure user can create account
         """
-        url = reverse('signup')
-        data = {
+        user = {
             "username": "test_user",
             "password": "thisIS24!#",
             "phone_number": "256787649914"
         }
-        response = self.client.post(url, data, format='json')
+        response = self.signup_user(user)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_login(self):
         """
-        Ensure user can create account
+        Ensure user can login using existing account
         """
-        url = reverse('signup')
-        data = {
+        user_1 = {
             "username": "test_user2",
             "password": "thisIS24!#",
             "phone_number": "25670000000"
         }
-        self.client.post(url, data, format='json')
+        self.signup_user(user_1)
         url = reverse('login')
         data = {
             "password": "thisIS24!#",
@@ -36,3 +34,16 @@ class AuthTests(BaseTestCase):
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_duplicate_account(self):
+        """
+        Ensure duplicate accounts are handled
+        """
+        user_1 = {
+            "username": "test_user2",
+            "password": "thisIS24!#",
+            "phone_number": "25670000000"
+        }
+        self.signup_user(user_1)
+        response = self.signup_user(user_1)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
