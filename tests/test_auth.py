@@ -7,7 +7,6 @@ from tests.sample_data.authentication import user, user_1
 
 
 class AuthTests(BaseTestCase):
-
     def setUp(self):
         self.signup_user(user_1)
 
@@ -23,7 +22,7 @@ class AuthTests(BaseTestCase):
         Ensure user can login using existing account
         """
         self.activate_user(user_1['phone_number'])
-        url = reverse('login')
+        url = reverse('authentication:login')
         data = {
             "password": "thisIS24!#",
             "phone_number": "25670000000",
@@ -43,7 +42,7 @@ class AuthTests(BaseTestCase):
         Ensure user can verify account
         """
         user = User.objects.get(phone_number=user_1['phone_number'])
-        url = reverse('verify')
+        url = reverse('authentication:verify')
         data = {
             "phone_number": user_1['phone_number'],
             "code": user.phone_verification.code
