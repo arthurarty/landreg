@@ -15,7 +15,6 @@ from datetime import timedelta
 
 from dotenv import load_dotenv
 
-import django_heroku
 
 load_dotenv()
 
@@ -38,7 +37,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'authentication',
+    'titles.apps.TitlesConfig',
+    'authentication.apps.AuthenticationConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -142,7 +142,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -171,5 +171,3 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     FRONTEND_URL,
 )
-
-django_heroku.settings(locals())

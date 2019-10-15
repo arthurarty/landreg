@@ -19,7 +19,7 @@ class BaseTestCase(APITestCase):
         by sending post request to signup
         endpoint
         """
-        url = reverse('signup')
+        url = reverse('authentication:signup')
         httpretty.register_uri(
             httpretty.POST, "https://api.sandbox.africastalking.com/version1/messaging",
             body=json.dumps({"hello": "world"}))
@@ -30,3 +30,20 @@ class BaseTestCase(APITestCase):
         user = User.objects.get(phone_number=phone_number)
         user.is_active = True
         user.save()
+
+    def add_token(self, token):
+        """adds authentication credentials in the request header"""
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+
+    def login_user(self, user):
+        """
+        logs in activated user and returns token
+        """
+        self.activate_user(user['phone_number'])
+        url = reverse('authentication:login')
+        data = {
+            "password": "thisIS24!#",
+            "phone_number": "25670000000",
+        }
+        response = self.client.post(url, data, format='json')
+        return response.data['access']
